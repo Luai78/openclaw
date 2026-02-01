@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  gateway:
+    image: nginx:alpine
+    container_name: openclaw-gateway
+    ports:
+      - "8080:80"
+    restart: unless-stopped
