@@ -1,9 +1,16 @@
-version: "3.9"
+
 
 services:
+  echo:
+    build: ./services/echo
+    ports:
+      - "5001:5000"
+
   gateway:
     image: nginx:alpine
     container_name: openclaw-gateway
     ports:
       - "8080:80"
-    restart: unless-stopped
+    volumes:
+      - ./gateway/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
