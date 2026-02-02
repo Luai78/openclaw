@@ -1,22 +1,27 @@
-# OpenClaw Setup (WSL + Docker)
+# OpenClaw / Moltbot Docker Setup
 
 ## Start
 docker compose up -d --build
 
-## Stop
+## Stop (clean)
 docker compose down --remove-orphans
 
-## Status / Logs
+## Status
 docker compose ps
+
+## Logs
 docker compose logs -f gateway
 docker compose logs -f moltbot
 
-## Endpoints (über nginx)
-- http://localhost:8080/           -> Gateway OK
-- http://localhost:8080/echo/      -> Echo Service
-- http://localhost:8080/health/    -> Health Service
-- http://localhost:8080/moltbot/   -> Moltbot API (reverse proxied)
+## Health Checks
+curl -i http://localhost:8080/
+curl -i http://localhost:8080/echo/
+curl -i http://localhost:8080/health/
+curl -i http://localhost:8080/moltbot/health
 
-## Secrets
-- Secrets stehen in .env (nicht in Git)
-- .env ist in .gitignore
+## Nginx Routing
+gateway/nginx/default.conf routes:
+- /echo/    -> echo:5000
+- /health/  -> health:5000
+- /moltbot/ -> moltbot:8000
+

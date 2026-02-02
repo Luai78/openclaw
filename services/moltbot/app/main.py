@@ -1,11 +1,10 @@
 from fastapi import FastAPI
+from app.core.logging import setup_logging
+from app.api.health import router as health_router
 
-app = FastAPI(title="Moltbot", version="0.1.0")
+setup_logging()
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+app = FastAPI(title="Moltbot")
 
-@app.get("/whoami")
-def whoami():
-    return {"service": "moltbot", "mode": "local"}
+app.include_router(health_router)
+
